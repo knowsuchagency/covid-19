@@ -1,5 +1,8 @@
 # COVID-19 API
 
+![](https://github.com/knowsuchagency/covid-19/workflows/black/badge.svg)
+![](https://github.com/knowsuchagency/covid-19/workflows/unit%20tests/badge.svg)
+
 This API is a wrapper around Johns Hopkins' https://github.com/CSSEGISandData/COVID-19 dataset.
 
 Please abide by their terms of use with respect to how you use their data via this API.
