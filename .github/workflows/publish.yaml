@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: 3.6
       - uses: actions/checkout@v1
-      - uses: knowsuchagency/poetry-install@v1
+      - uses: knowsuchagency/poetry-install@v2
       - name: publish
         env:
           PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
