@@ -14,7 +14,7 @@ from covid_19.utils import to_records, expose
 
 api = hug.API(__name__)
 
-api.name = "Corona API"
+api.name = "COVID-19 API"
 
 api.cli.output_format = hug.output_format.pretty_json
 
