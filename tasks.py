@@ -25,7 +25,7 @@ def install_hooks(c):
 @task(aliases=["check-black"])
 def check_formatting(c):
     """Check that files conform to black standards."""
-    c.run("black --check klaxon/ tests/ tasks.py")
+    c.run("black --check covid_19/ tests/ tasks.py")
 
 
 @task(check_formatting, test)
@@ -37,8 +37,8 @@ def publish(c, username=None, password=None):
     password = password or os.getenv("PYPI_PASSWORD")
 
     *_, latest_release = json.loads(
-        c.run("qypi releases klaxon", hide=True).stdout
-    )["klaxon"]
+        c.run("qypi releases covid-19", hide=True).stdout
+    )["covid-19"]
 
     latest_release_version = latest_release["version"]
 
@@ -47,7 +47,7 @@ def publish(c, username=None, password=None):
     if local_version == latest_release_version:
         print("local and release version are identical -- skipping publish")
     else:
-        print(f"publishing klaxon v{local_version}")
+        print(f"publishing covid-19 v{local_version}")
         c.run(
             f"poetry publish -u {username} -p '{password}' --build",
             pty=True,
