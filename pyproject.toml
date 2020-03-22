@@ -24,6 +24,7 @@ invoke = "^1.4.1"
 toml = "^0.10.0"
 pre-commit = "^2.2.0"
 qypi = "^0.5.0"
+black = "^19.10b0"
 
 [tool.poetry.scripts]
 covid = "covid_19.api:__hug__.cli"
