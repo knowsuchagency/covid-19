@@ -10,7 +10,7 @@ def test_fetch():
     fetch()
 
 
-def test_coutries_and_regions():
+def test_countries_and_regions():
     countries_and_regions()
 
 
