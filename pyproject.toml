@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "covid-19"
-version = "0.1.5"
+version = "0.1.6"
 description = "An API around the https://github.com/CSSEGISandData/COVID-19 dataset"
 authors = ["Stephan Fitzpatrick <knowsuchagency@gmail.com>"]
 license = "Apache-2.0"
@@ -31,7 +31,6 @@ zappa = "^0.51.0"
 
 [tool.poetry.scripts]
 covid = "covid_19.api:__hug__.cli"
-covid-serve = "covid_19.api:__hug__.http.serve"
 
 [tool.black]
 line-length = 79
