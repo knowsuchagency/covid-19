@@ -25,7 +25,7 @@ def install_hooks(c):
 @task(aliases=["check-black"])
 def check_formatting(c):
     """Check that files conform to black standards."""
-    c.run("black --check covid_19/ tests/ tasks.py")
+    c.run("black --check covid_19/ tests/ tasks.py app.py")
 
 
 @task(check_formatting, test)
@@ -53,3 +53,22 @@ def publish(c, username=None, password=None):
             pty=True,
             hide=True,
         )
+
+
+@task
+def build_image(c):
+    """Build and tag docker image."""
+    version = toml.load("pyproject.toml")["tool"]["poetry"]["version"]
+
+    c.run(f"docker build -t knowsuchagency/covid-19:{version} .")
+
+
+@task
+def push_image(c):
+    """Push docker image to dockerhub."""
+    c.run("docker push knowsuchagency/covid-19")
+
+
+@task
+def cdk_deploy(c):
+    c.run("cdk deploy")
