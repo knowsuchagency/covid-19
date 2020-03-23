@@ -65,9 +65,9 @@ def docker_login(c, username=None, password=None):
         username_flag = ""
 
     if password is not None:
-        password_flag = f"-u {password}"
+        password_flag = f"-p {password}"
     elif os.getenv("DOCKER_PASSWORD"):
-        password_flag = "-u ".format(os.environ["DOCKER_PASSWORD"])
+        password_flag = "-p ".format(os.environ["DOCKER_PASSWORD"])
     else:
         password_flag = ""
 
