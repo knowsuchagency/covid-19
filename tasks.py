@@ -56,6 +56,37 @@ def publish(c, username=None, password=None):
 
 
 @task
+def docker_login(c, username=None, password=None):
+    username_flag = "" if username is None else f"-u {username}"
+
+    password_flag = "" if password is None else f"-p {password}"
+
+    c.run(f"docker login {username_flag} {password_flag}".strip())
+
+
+@task
+def build_image(c):
+    """Build and tag docker image."""
+    version = toml.load("pyproject.toml")["tool"]["poetry"]["version"]
+
+    c.run(f"docker build -t knowsuchagency/covid-19:{version} .")
+    c.run(
+        f"docker tag knowsuchagency/covid-19:{version} knowsuchagency/covid-19:latest"
+    )
+
+
+@task(docker_login)
+def push_image(c):
+    """Push docker image to dockerhub."""
+    c.run("docker push knowsuchagency/covid-19")
+
+
+@task
+def cdk_deploy(c):
+    c.run("cdk deploy")
+
+
+@task
 def ecs_initialize(c):
     """Deploy the dockerfized app on aws ecs."""
     c.run(

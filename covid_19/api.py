@@ -11,6 +11,7 @@ import hug
 
 from covid_19.fetch import get_data
 from covid_19.utils import to_records, expose
+from covid_19.wsgi import StandaloneApplication
 
 api = hug.API(__name__)
 
@@ -43,13 +44,13 @@ def fetch(date=None, country=None, state=None):
 
 
 @expose
-def countries_and_regions():
+def countries():
     """Return all countries and regions in the dataset."""
     return df["Country/Region"].to_list()
 
 
 @expose
-def states_and_provinces():
+def states():
     """Return all states and provinces in the dataset."""
     return to_records(
         df[["Province/State", "Country/Region"]].dropna(how="any")
@@ -75,7 +76,11 @@ def for_date(date_string=None):
 @hug.cli()
 def serve(host: str = "", port: int = 80):
     """Serve REST API locally."""
-    api.http.serve(host=host, port=port)
+    options = {
+        "bind": f"{host}:{port}",
+        "worker-class": "egg:meinheld#gunicorn_worker",
+    }
+    StandaloneApplication(__hug_wsgi__, options).run()
 
 
 if __name__ == "__main__":

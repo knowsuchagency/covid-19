@@ -24,4 +24,6 @@ COPY README.md /src
 
 RUN poetry install
 
-CMD gunicorn --bind "0.0.0.0:80" --worker-class="egg:meinheld#gunicorn_worker" covid_19.api:__hug_wsgi__
+ENTRYPOINT ["covid"]
+
+CMD ["serve"]
