@@ -53,3 +53,24 @@ def publish(c, username=None, password=None):
             pty=True,
             hide=True,
         )
+
+
+@task
+def ecs_initialize(c):
+    """Deploy the dockerfized app on aws ecs."""
+    c.run(
+        """
+        ecs-preview init --project covid-19-api  \
+          --app api                          \
+          --app-type 'Load Balanced Web App' \
+          --dockerfile './Dockerfile'        \
+          --port 80                          \
+          --profile ecs-admin                \
+          --deploy
+        """
+    )
+
+
+@task
+def ecs_deploy(c):
+    c.run("ecs-preview deploy")
