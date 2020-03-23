@@ -53,3 +53,63 @@ def publish(c, username=None, password=None):
             pty=True,
             hide=True,
         )
+
+
+@task
+def docker_login(c, username=None, password=None):
+    username_flag = (
+        ""
+        if username is None
+        else os.getenv("-u " + "DOCKER_USERNAME", f"-u {username}")
+    )
+
+    password_flag = (
+        ""
+        if password is None
+        else os.getenv("-p " + "DOCKER_PASSWORD", f"-p {password}")
+    )
+
+    c.run(f"docker login {username_flag} {password_flag}".strip())
+
+
+@task
+def build_image(c):
+    """Build and tag docker image."""
+    version = toml.load("pyproject.toml")["tool"]["poetry"]["version"]
+
+    c.run(f"docker build -t knowsuchagency/covid-19:{version} .")
+    c.run(
+        f"docker tag knowsuchagency/covid-19:{version} knowsuchagency/covid-19:latest"
+    )
+
+
+@task(docker_login)
+def push_image(c):
+    """Push docker image to dockerhub."""
+    c.run("docker push knowsuchagency/covid-19")
+
+
+@task
+def cdk_deploy(c):
+    c.run("cdk deploy")
+
+
+@task
+def ecs_initialize(c):
+    """Deploy the dockerfized app on aws ecs."""
+    c.run(
+        """
+        ecs-preview init --project covid-19-api  \
+          --app api                          \
+          --app-type 'Load Balanced Web App' \
+          --dockerfile './Dockerfile'        \
+          --port 80                          \
+          --profile ecs-admin                \
+          --deploy
+        """
+    )
+
+
+@task
+def ecs_deploy(c):
+    c.run("ecs-preview deploy")
