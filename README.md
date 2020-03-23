@@ -9,6 +9,8 @@ Please abide by their terms of use with respect to how you use their data via th
 
 ## Installation
 
+This package is hosted on [pypi](https://pypi.org/project/covid-19/)
+
 The recommended method of installation is through [pipx].
 ```bash
 pipx install covid-19
@@ -22,7 +24,7 @@ pip install covid-19
 
 This package installs a command-line tool, `covid`
 
-This tool lets you programmatically access John Hopkins' dataset via terminal commands
+It lets you programmatically access John Hopkins' dataset via terminal commands
 or via a rest api that can itself be instantiated locally from the cli
 
 ```bash
