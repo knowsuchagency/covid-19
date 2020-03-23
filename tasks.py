@@ -57,9 +57,17 @@ def publish(c, username=None, password=None):
 
 @task
 def docker_login(c, username=None, password=None):
-    username_flag = "" if username is None else f"-u {username}"
+    username_flag = (
+        ""
+        if username is None
+        else os.getenv("-u " + "DOCKER_USERNAME", f"-u {username}")
+    )
 
-    password_flag = "" if password is None else f"-p {password}"
+    password_flag = (
+        ""
+        if password is None
+        else os.getenv("-p " + "DOCKER_PASSWORD", f"-p {password}")
+    )
 
     c.run(f"docker login {username_flag} {password_flag}".strip())
 
