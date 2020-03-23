@@ -26,4 +26,12 @@ This tool lets you programmatically access John Hopkins' dataset in the terminal
 but also lets you host a REST API for the data on your machine via the `serve` subcommand
 i.e. `covid serve`
 
+## Docker
+
+This package can also be run as a docker image.
+
+```bash
+docker run knowsuchagency/covid-19 --help
+```
+
 [pipx]: https://github.com/pipxproject/pipx
