@@ -15,7 +15,7 @@ jobs:
   unit-tests:
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
