@@ -158,3 +158,6 @@ dmypy.json
 
 # aws cdk
 cdk.out/
+
+# zappa
+zappa_settings.json

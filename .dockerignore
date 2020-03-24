@@ -225,3 +225,6 @@ dmypy.json
 
 # cdk
 cdk.out/
+
+# zappa
+zappa_settings.json
