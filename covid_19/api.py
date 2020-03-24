@@ -14,11 +14,11 @@ from typing import *
 
 import hug
 
-from covid_19.data import get_data
+from covid_19.data import get_dataframe
 from covid_19.utils import to_records, expose
 from covid_19.wsgi import StandaloneApplication
 
-df = get_data()
+df = get_dataframe()
 
 
 def update_df(period=86400):
@@ -27,7 +27,7 @@ def update_df(period=86400):
     event = threading.Event()
     while not event.wait(period):
         logging.warning("updating the dataframe")
-        df = get_data()
+        df = get_dataframe()
 
 
 threading.Thread(target=update_df, daemon=True).start()
@@ -44,7 +44,7 @@ api.name = "COVID-19 API"
     ],
 )
 @hug.cli(output=hug.output_format.pretty_json)
-def fetch(
+def all(
     date=None,
     country=None,
     state=None,
@@ -72,6 +72,7 @@ def fetch(
     result = df
 
     if date is not None:
+        print(f"date: {date}")
         result = df[
             df["Last Update"].map(lambda d: d.date())
             == dt.datetime.fromisoformat(date).date()

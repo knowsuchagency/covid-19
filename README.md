@@ -50,7 +50,7 @@ Please abide by their terms of use with respect to how you use their data via th
 
 Available Commands:
 
- - fetch: Fetch all data from John Hopkins.
+ - all: Fetch all data from John Hopkins.
  - countries: Return all countries and regions in the dataset.
  - states: Return all states and provinces in the dataset.
  - for_date: Return all data for a specific date.
@@ -77,7 +77,7 @@ covid for_date 2020-03-21
 
 ## Docker
 
-This package can also be run as a docker image.
+This package can also be run as a [docker image][docker image].
 
 ```bash
 docker run knowsuchagency/covid-19 --help
@@ -85,3 +85,4 @@ docker run knowsuchagency/covid-19 --help
 
 [pipx]: https://github.com/pipxproject/pipx
 [coronavirus-api]: https://coronavirus-api.net
+[docker image]: https://hub.docker.com/repository/docker/knowsuchagency/covid-19

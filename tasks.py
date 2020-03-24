@@ -11,8 +11,12 @@ def black(c):
 
 
 @task
-def test(c):
-    c.run("pytest tests/")
+def test(c, capture=True):
+    cmd = ["pytest"]
+    arguments = ["tests/"]
+    if not capture:
+        arguments.insert(0, "-s")
+    c.run(" ".join([*cmd, *arguments]))
 
 
 @task

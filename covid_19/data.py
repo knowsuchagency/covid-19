@@ -25,7 +25,7 @@ def get_dataframe_for_date(date: dt.date = INITIAL_DATE) -> pd.DataFrame:
         return pd.read_csv(fp)
 
 
-def get_dataframe_for_daterange(start_date=INITIAL_DATE, end_date=None):
+def get_dataframe(start_date=INITIAL_DATE, end_date=None):
     """Fetch the appropriate csv(s) for a given daterange, concatenate them, and return a csv."""
 
     end_date = (
@@ -43,8 +43,3 @@ def get_dataframe_for_daterange(start_date=INITIAL_DATE, end_date=None):
         df["Last Update"] = df["Last Update"].astype("datetime64[ns]")
 
     return df
-
-
-get_data = get_dataframe_for_daterange
-
-df = get_data()
