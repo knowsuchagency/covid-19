@@ -46,3 +46,5 @@ def get_dataframe_for_daterange(start_date=INITIAL_DATE, end_date=None):
 
 
 get_data = get_dataframe_for_daterange
+
+df = get_data()

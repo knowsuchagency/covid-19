@@ -9,7 +9,7 @@ from typing import *
 
 import hug
 
-from covid_19.fetch import get_data
+from covid_19.data import df
 from covid_19.utils import to_records, expose
 from covid_19.wsgi import StandaloneApplication
 
@@ -17,15 +17,11 @@ api = hug.API(__name__)
 
 api.name = "COVID-19 API"
 
-api.cli.output_format = hug.output_format.pretty_json
-
-api.http.output_format = hug.output_format.pretty_json
-
-df = get_data()
+# api.cli.output_format = hug.output_format.pretty_json
 
 
-@hug.get(examples=["country=US&date=2020-03-20"])
-@hug.cli()
+@hug.get(examples=["country=US&date=2020-03-20"],)
+@hug.cli(output=hug.output_format.pretty_json)
 def fetch(date=None, country=None, state=None):
     """Fetch all data from John Hopkins."""
     result = df
