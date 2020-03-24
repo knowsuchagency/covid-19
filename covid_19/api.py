@@ -8,15 +8,15 @@ You can find the source code at https://github.com/knowsuchagency/covid-19
 
 import datetime as dt
 import json
+import logging
 import threading
 from typing import *
-import logging
+
 import hug
 
 from covid_19.data import get_data
 from covid_19.utils import to_records, expose
 from covid_19.wsgi import StandaloneApplication
-
 
 df = get_data()
 
