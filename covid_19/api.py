@@ -2,10 +2,13 @@
 This API is a wrapper around Johns Hopkins' https://github.com/CSSEGISandData/COVID-19 dataset.
 
 Please abide by their terms of use with respect to how you use their data via this API.
+
+You can find the source code at https://github.com/knowsuchagency/covid-19
 """
 
 import datetime as dt
 from typing import *
+import json
 
 import hug
 
@@ -17,24 +20,72 @@ api = hug.API(__name__)
 
 api.name = "COVID-19 API"
 
-# api.cli.output_format = hug.output_format.pretty_json
 
-
-@hug.get(examples=["country=US&date=2020-03-20"],)
+@hug.get(
+    examples=[
+        "country=US&date=2020-03-20",
+        'min_date=2020-03-22&states=["California", "Colorada"]',
+    ],
+)
 @hug.cli(output=hug.output_format.pretty_json)
-def fetch(date=None, country=None, state=None):
-    """Fetch all data from John Hopkins."""
+def fetch(
+    date=None,
+    country=None,
+    state=None,
+    min_date=None,
+    max_date=None,
+    countries=None,
+    states=None,
+):
+    """
+    Fetch all data from John Hopkins.
+
+    Args:
+        date (str): iso-formatted date
+        country (str): country or region
+        state (str): state or province
+        min_date: (str): iso-formatted date
+        max_date (str): iso-formatted date
+        countries List[str]: json-formatted array of strings
+        states List[str]: json-formatted array of strings
+    """
     result = df
 
     if date is not None:
-        date = dt.datetime.fromisoformat(date).date()
-        result = df[df["Last Update"].map(lambda d: d.date()) == date]
+        result = df[
+            df["Last Update"].map(lambda d: d.date())
+            == dt.datetime.fromisoformat(date).date()
+        ]
 
     if country is not None:
         result = result[result["Country/Region"] == country]
 
     if state is not None:
         result = result[result["Province/State"] == state]
+
+    if min_date is not None:
+        result = result[
+            result["Last Update"].map(lambda d: d.date())
+            >= dt.datetime.fromisoformat(min_date).date()
+        ]
+
+    if max_date is not None:
+        result = result[
+            result["Last Update"].map(lambda d: d.date())
+            <= dt.datetime.fromisoformat(max_date).date()
+        ]
+
+    if countries is not None:
+        result = result[
+            result["Countries/Regions"].map(
+                lambda s: s in json.loads(countries)
+            )
+        ]
+
+    if states is not None:
+        result = result[
+            result["Province/State"].map(lambda s: s in json.loads(states))
+        ]
 
     return to_records(result)
 
