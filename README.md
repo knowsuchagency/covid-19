@@ -1,6 +1,6 @@
 # COVID-19 API
 
-**[coronavirus-api.net](https://coronavirus-api.net)**
+**[coronavirus-api.net][coronavirus-api]**
 
 ![](https://github.com/knowsuchagency/covid-19/workflows/black/badge.svg)
 ![](https://github.com/knowsuchagency/covid-19/workflows/unit%20tests/badge.svg)
@@ -22,7 +22,18 @@ However, covid-19 can also be pip-installed as normal.
 pip install covid-19
 ```
 
-## Usage
+## Website
+
+The [coronavirus api website][coronavirus-api] allows several methods of slicing and dicing the data.
+
+For example, the `fetch` endpoint (which returns all data) can be filtered for rows which only contain
+data for California and Colorado as of March 22nd in this way:
+
+`https://coronavirus-api.net/fetch?min_date=2020-03-22&states=["California", "Colorada"]`
+
+The [main page][coronavirus-api] will list the available endpoints and their available parameters.
+
+## CLI Usage
 
 This package installs a command-line tool, `covid`
 
@@ -73,3 +84,4 @@ docker run knowsuchagency/covid-19 --help
 ```
 
 [pipx]: https://github.com/pipxproject/pipx
+[coronavirus-api]: https://coronavirus-api.net
