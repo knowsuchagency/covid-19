@@ -1,6 +1,6 @@
 # COVID-19 API
 
-**[coronavirus-api.net](https://coronavirus-api.net/fetch?min_date=2020-02-01&state=California&limit=100)**
+**[coronavirus-api.net][coronavirus-api]**
 
 ![](https://github.com/knowsuchagency/covid-19/workflows/black/badge.svg)
 ![](https://github.com/knowsuchagency/covid-19/workflows/unit%20tests/badge.svg)
@@ -24,7 +24,7 @@ pip install covid-19
 
 ## Website
 
-The [coronavirus api website][coronavirus-api] allows several methods of slicing and dicing the data.
+The [coronavirus api website](https://coronavirus-api.net/fetch?min_date=2020-02-01&state=California&limit=100) allows several methods of slicing and dicing the data.
 
 For example, the `fetch` endpoint (which returns all data) can be filtered for rows which only contain
 data for California and Colorado as of March 22nd in this way:
