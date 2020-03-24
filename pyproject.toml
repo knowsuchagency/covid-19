@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "covid-19"
-version = "0.2.2"
+version = "0.3.0"
 description = "An API around the https://github.com/CSSEGISandData/COVID-19 dataset"
 authors = ["Stephan Fitzpatrick <knowsuchagency@gmail.com>"]
 license = "Apache-2.0"

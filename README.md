@@ -1,6 +1,6 @@
 # COVID-19 API
 
-**[coronavirus-api.net][coronavirus-api]**
+**[coronavirus-api.net](https://coronavirus-api.net/fetch?min_date=2020-02-01&state=California&limit=100)**
 
 ![](https://github.com/knowsuchagency/covid-19/workflows/black/badge.svg)
 ![](https://github.com/knowsuchagency/covid-19/workflows/unit%20tests/badge.svg)

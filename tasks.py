@@ -92,11 +92,6 @@ def push_image(c):
 
 
 @task
-def cdk_deploy(c):
-    c.run("cdk deploy")
-
-
-@task
 def ecs_initialize(c):
     """Deploy the dockerfized app on aws ecs."""
     c.run(
@@ -114,4 +109,11 @@ def ecs_initialize(c):
 
 @task
 def ecs_deploy(c):
+    """Deploy using ecs-cli v2 preview."""
     c.run("ecs-preview deploy")
+
+
+@task
+def clean(c):
+    """Delete lingering .pyc files."""
+    c.run("find . -name '*.pyc' -delete")
