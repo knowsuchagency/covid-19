@@ -1,17 +1,17 @@
 from covid_19.api import (
-    all,
+    get_all,
     countries,
     states,
     for_date,
 )
 
 
-def test_all():
-    all()
+def test_get_all():
+    get_all()
 
     state = "California"
 
-    california_records = all(state=state)
+    california_records = get_all(state=state)
 
     assert all(r["Province/State"] == state for r in california_records)
 

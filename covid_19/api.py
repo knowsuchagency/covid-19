@@ -44,7 +44,7 @@ api.name = "COVID-19 API"
     ],
 )
 @hug.cli(output=hug.output_format.pretty_json)
-def all(
+def get_all(
     date=None,
     country=None,
     state=None,
@@ -72,7 +72,10 @@ def all(
     result = df
 
     if date is not None:
+        from pprint import pprint
+
         print(f"date: {date}")
+        print(list(date))
         result = df[
             df["Last Update"].map(lambda d: d.date())
             == dt.datetime.fromisoformat(date).date()
