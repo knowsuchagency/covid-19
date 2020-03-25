@@ -24,12 +24,12 @@ pip install covid-19
 
 ## Website
 
-The [coronavirus api website](https://coronavirus-api.net/fetch?min_date=2020-02-01&state=California&limit=100) allows several methods of slicing and dicing the data.
+The [coronavirus api website](https://coronavirus-api.net/get_all?min_date=2020-02-01&state=California&limit=100) allows several methods of slicing and dicing the data.
 
-For example, the `fetch` endpoint (which returns all data) can be filtered for rows which only contain
+For example, the `get_all` endpoint (which returns all data) can be filtered for rows which only contain
 data for California and Colorado as of March 22nd in this way:
 
-`https://coronavirus-api.net/fetch?min_date=2020-03-22&states=["California", "Colorada"]`
+`https://coronavirus-api.net/get_all?min_date=2020-03-22&states=["California", "Colorada"]`
 
 The [main page][coronavirus-api] will list the available endpoints and their available parameters.
 
@@ -50,7 +50,7 @@ Please abide by their terms of use with respect to how you use their data via th
 
 Available Commands:
 
- - all: Fetch all data from John Hopkins.
+ - get_allall: Fetch all data from John Hopkins.
  - countries: Return all countries and regions in the dataset.
  - states: Return all states and provinces in the dataset.
  - for_date: Return all data for a specific date.
