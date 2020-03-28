@@ -50,7 +50,7 @@ Please abide by their terms of use with respect to how you use their data via th
 
 Available Commands:
 
- - get_allall: Fetch all data from John Hopkins.
+ - get_all: Fetch all data from John Hopkins.
  - countries: Return all countries and regions in the dataset.
  - states: Return all states and provinces in the dataset.
  - for_date: Return all data for a specific date.
