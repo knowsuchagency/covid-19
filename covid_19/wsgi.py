@@ -2,8 +2,8 @@ import gunicorn.app.base
 
 
 class StandaloneApplication(gunicorn.app.base.BaseApplication):
-    def __init__(self, app, options=None):
-        self.options = options or {}
+    def __init__(self, app, **options):
+        self.options = options
         self.application = app
         super().__init__()
 

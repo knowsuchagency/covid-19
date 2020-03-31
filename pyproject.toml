@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "covid-19"
-version = "0.3.6"
+version = "0.4.0"
 description = "An API around the https://github.com/CSSEGISandData/COVID-19 dataset"
 authors = ["Stephan Fitzpatrick <knowsuchagency@gmail.com>"]
 license = "Apache-2.0"
@@ -28,7 +28,6 @@ pre-commit = "^2.2.0"
 qypi = "^0.5.0"
 black = "^19.10b0"
 gunicorn = "^20.0.4"
-meinheld = "^1.0.1"
 zappa = "^0.51.0"
 
 [tool.poetry.scripts]

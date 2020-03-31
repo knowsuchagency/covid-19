@@ -1,10 +1,4 @@
-"""
-This API is a wrapper around Johns Hopkins' https://github.com/CSSEGISandData/COVID-19 dataset.
-
-Please abide by their terms of use with respect to how you use their data via this API.
-
-You can find the source code at https://github.com/knowsuchagency/covid-19
-"""
+"""This API is a wrapper around Johns Hopkins' https://github.com/CSSEGISandData/COVID-19 dataset."""
 
 import datetime as dt
 import json
@@ -54,28 +48,12 @@ def get_all(
     states=None,
     limit=None,
 ):
-    """
-    Fetch all data from John Hopkins.
+    """Fetch all data from John Hopkins."""
 
-    Args:
-
-        date (str): iso-formatted date
-        country (str): country or region
-        state (str): state or province
-        min_date: (str): iso-formatted date
-        max_date (str): iso-formatted date
-        countries List[str]: json-formatted array of strings
-        states List[str]: json-formatted array of strings
-        limit (int): the maximum number of rows to be returned
-
-    """
     result = df
 
     if date is not None:
-        from pprint import pprint
 
-        print(f"date: {date}")
-        print(list(date))
         result = df[
             df["Last Update"].map(lambda d: d.date())
             == dt.datetime.fromisoformat(date).date()
@@ -154,11 +132,7 @@ def for_date(date_string=None):
 @hug.cli()
 def serve(host: str = "", port: int = 80):
     """Serve REST API locally."""
-    options = {
-        "bind": f"{host}:{port}",
-        "worker-class": "egg:meinheld#gunicorn_worker",
-    }
-    StandaloneApplication(__hug_wsgi__, options).run()
+    StandaloneApplication(__hug_wsgi__, bind=f"{host}:{port}").run()
 
 
 if __name__ == "__main__":
