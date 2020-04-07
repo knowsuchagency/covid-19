@@ -40,8 +40,14 @@ def get_dataframe(start_date=INITIAL_DATE, end_date=None):
 
         df = pd.concat(ex.map(get_dataframe_for_date, dates))
 
-    df["Last Update"] = df["Last_Update"] = pd.to_datetime(df["Last Update"])
+    df.rename(columns=str.lower, inplace=True)
 
-    df["Last_Update_Day"] = df.Last_Update.map(lambda d: d.date())
+    df.drop(columns=[c for c in df.columns if "/" in c], inplace=True)
+
+    df["last_update"] = pd.to_datetime(df["last_update"])
+
+    df["last_update_day"] = df.last_update.map(lambda d: d.date())
+
+    df["county"] = df.admin2
 
     return df
