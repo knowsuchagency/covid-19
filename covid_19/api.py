@@ -15,11 +15,11 @@ from covid_19.wsgi import StandaloneApplication
 df = get_dataframe()
 
 
-def update_df(period=86400):
-    """Update the dataframe daily."""
+def update_df():
+    """Update the dataframe every six hours by default."""
     global df
     event = threading.Event()
-    while not event.wait(period):
+    while not event.wait(21600):
         logging.warning("updating the dataframe")
         df = get_dataframe()
 
@@ -46,6 +46,8 @@ def get_all(
     max_date=None,
     countries=None,
     states=None,
+    county=None,
+    counties=None,
     limit=None,
 ):
     """Fetch all data from John Hopkins."""
@@ -55,15 +57,9 @@ def get_all(
     if date is not None:
 
         result = df[
-            df["Last Update"].map(lambda d: d.date())
+            df.Last_Update.map(lambda d: d.date())
             == dt.datetime.fromisoformat(date).date()
         ]
-
-    if country is not None:
-        result = result[result["Country/Region"] == country]
-
-    if state is not None:
-        result = result[result["Province/State"] == state]
 
     if min_date is not None:
         result = result[
@@ -77,19 +73,52 @@ def get_all(
             <= dt.datetime.fromisoformat(max_date).date()
         ]
 
-    if countries is not None:
-        countries = (
-            json.loads(countries)
-            if not isinstance(countries, list)
-            else countries
-        )
-        result = result[
-            result["Countries/Regions"].map(lambda s: s in countries)
-        ]
+    assert (
+        not country and countries
+    ), "country and countries filters are mutually exclusive"
 
-    if states is not None:
-        states = json.loads(states) if not isinstance(states, list) else states
-        result = result[result["Province/State"].map(lambda s: s in states)]
+    if country or countries:
+        countries = (
+            [country]
+            if country
+            else (
+                json.loads(countries)
+                if not isinstance(countries, list)
+                else countries
+            )
+        )
+
+        result = result[result.Country_Region.map(lambda c: c in countries)]
+
+    assert (
+        not state and states
+    ), "state and states filters are mutually exclusive"
+
+    if state or states:
+        states = (
+            [state]
+            if state
+            else json.loads(states)
+            if not isinstance(states, list)
+            else states
+        )
+
+        result = result[result.Province_State.map(lambda s: s in states)]
+
+    assert (
+        not county and counties
+    ), "county and counties filters are mutually exclusive"
+
+    if county or counties:
+        counties = (
+            [county]
+            if county
+            else json.loads(counties)
+            if not isinstance(counties, list)
+            else counties
+        )
+
+        result = result[result.Admin2.map(lambda c: c in counties)]
 
     records = to_records(result)
 
@@ -100,17 +129,21 @@ def get_all(
 
 
 @expose
+def counties():
+    """Return all US counties in the dataset."""
+    return df[df.Country_Region == "US"].Admin2.dropna().unique().tolist()
+
+
+@expose
 def countries():
     """Return all countries and regions in the dataset."""
-    return df["Country/Region"].to_list()
+    return df.Country_Region.dropna().unique().tolist()
 
 
 @expose
 def states():
     """Return all states and provinces in the dataset."""
-    return to_records(
-        df[["Province/State", "Country/Region"]].dropna(how="any")
-    )
+    return to_records(df[["Province_State", "Country_Region"]].dropna())
 
 
 @expose
@@ -124,7 +157,7 @@ def for_date(date_string=None):
         else (dt.datetime.utcnow() - dt.timedelta(days=1)).date()
     )
 
-    result = df[df["Last Update"].map(lambda d: d.date()) == date]
+    result = df[df.Last_Update.map(lambda d: d.date()) == date]
 
     return to_records(result)
 

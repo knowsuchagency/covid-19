@@ -40,9 +40,7 @@ def get_dataframe(start_date=INITIAL_DATE, end_date=None):
 
         df = pd.concat(ex.map(get_dataframe_for_date, dates))
 
-    df["Last Update"] = df["Last_Update"] = df["Last Update"].astype(
-        "datetime64[ns]"
-    )
+    df["Last Update"] = df["Last_Update"] = pd.to_datetime(df["Last Update"])
 
     df["Last_Update_Day"] = df.Last_Update.map(lambda d: d.date())
 
