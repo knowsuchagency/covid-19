@@ -57,19 +57,19 @@ def get_all(
     if date is not None:
 
         result = df[
-            df.last_update.map(lambda d: d.date())
+            df.datetime.map(lambda d: d.date())
             == dt.datetime.fromisoformat(date).date()
         ]
 
     if min_date is not None:
         result = result[
-            result["last_update"].map(lambda d: d.date())
+            result["datetime"].map(lambda d: d.date())
             >= dt.datetime.fromisoformat(min_date).date()
         ]
 
     if max_date is not None:
         result = result[
-            result["last_update"].map(lambda d: d.date())
+            result["datetime"].map(lambda d: d.date())
             <= dt.datetime.fromisoformat(max_date).date()
         ]
 
@@ -88,7 +88,7 @@ def get_all(
             )
         )
 
-        result = result[result.country_region.map(lambda c: c in countries)]
+        result = result[result.country.map(lambda c: c in countries)]
 
     assert not (
         state and states
@@ -103,7 +103,7 @@ def get_all(
             else states
         )
 
-        result = result[result.province_state.map(lambda s: s in states)]
+        result = result[result.state.map(lambda s: s in states)]
 
     assert not (
         county and counties
@@ -131,19 +131,19 @@ def get_all(
 @expose
 def counties():
     """Return all US counties in the dataset."""
-    return df[df.country_region == "US"].county.dropna().unique().tolist()
+    return df[df.country == "US"].county.dropna().unique().tolist()
 
 
 @expose
 def countries():
     """Return all countries and regions in the dataset."""
-    return df.country_region.dropna().unique().tolist()
+    return df.country.dropna().unique().tolist()
 
 
 @expose
 def states():
     """Return all states and provinces in the dataset."""
-    return to_records(df[["province_state", "country_region"]].dropna())
+    return to_records(df[["state", "country"]].dropna())
 
 
 @expose
@@ -157,7 +157,7 @@ def for_date(date_string=None):
         else (dt.datetime.utcnow() - dt.timedelta(days=1)).date()
     )
 
-    result = df[df.last_update.map(lambda d: d.date()) == date]
+    result = df[df.datetime.map(lambda d: d.date()) == date]
 
     return to_records(result)
 

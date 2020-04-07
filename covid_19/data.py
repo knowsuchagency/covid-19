@@ -25,8 +25,8 @@ def get_dataframe_for_date(date: dt.date = INITIAL_DATE) -> pd.DataFrame:
         return pd.read_csv(fp)
 
 
-def get_dataframe(start_date=INITIAL_DATE, end_date=None):
-    """Fetch the appropriate csv(s) for a given daterange, concatenate them, and return a csv."""
+def get_dataframe(start_date=INITIAL_DATE, end_date=None) -> pd.DataFrame:
+    """Fetch the appropriate csv(s) for a given daterange, concatenate them, and return a dataframe."""
 
     end_date = (
         end_date
@@ -44,10 +44,22 @@ def get_dataframe(start_date=INITIAL_DATE, end_date=None):
 
     df.drop(columns=[c for c in df.columns if "/" in c], inplace=True)
 
-    df["last_update"] = pd.to_datetime(df["last_update"])
+    df["datetime"] = pd.to_datetime(df["last_update"])
 
-    df["last_update_day"] = df.last_update.map(lambda d: d.date())
+    df["date"] = df.datetime.map(lambda d: d.date())
 
-    df["county"] = df.admin2
+    # df["county"] = df.admin2
+    renames = {
+        "country_region": "country",
+        "province_state": "state",
+        "admin2": "county",
+    }
+
+    df.rename(columns=renames, inplace=True)
+
+    df.drop(
+        columns=["last update", "last_update", "lat", "long_", "combined_key"],
+        inplace=True,
+    )
 
     return df

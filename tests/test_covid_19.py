@@ -13,7 +13,7 @@ def test_get_all():
 
     california_records = get_all(state=state)
 
-    assert all(r["province_state"] == state for r in california_records)
+    assert all(r["state"] == state for r in california_records)
 
 
 def test_countries():
